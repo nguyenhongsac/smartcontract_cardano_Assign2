@@ -16,7 +16,6 @@ import {
 } from "@meshsdk/core";
 
 import {
- // blockchainProvider,
   getScript,
   getTxBuilder,
   getUtxoByTxHash,
@@ -27,7 +26,7 @@ import {
 async function main() {
   try {
     const txHash =
-      "9da5b3585262cfca251354527933195280d6b786783ffa3f44c08589157f7c65";
+      "7792ed3102ac3938691c1e21d36ac1fc9245ad2767e9f45ad5f7888ee884645d";
     const vestingUtxo = await getUtxoByTxHash(txHash);
     console.log("Vesting UTXO:", vestingUtxo);
     const { utxos, walletAddress, collateral } = await getWalletInfoForTx(wallet);
@@ -36,8 +35,7 @@ async function main() {
     const { pubKeyHash } = deserializeAddress(walletAddress);
     
     const datum =await deserializeDatum(vestingUtxo.output.plutusData!);
-   
-    console.log(datum.fields[0].int);
+    console.log("Datum:", datum);
     const invalidBefore =
      unixTimeToEnclosingSlot(Math.max(
         (Number(datum.fields[2].int)), Date.now() - 15000),

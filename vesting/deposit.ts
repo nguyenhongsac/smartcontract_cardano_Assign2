@@ -17,8 +17,12 @@ async function main() {
       unit: "lovelace",
       quantity: "3000000",
     },
+    {
+      unit: "3bc49fa8439037997d0db3f4ad6f7b4372976ed1a575c921658c787968656c6c6f20776f726c6c6c64",
+      quantity: '100'
+    }
   ];
-  console.log("Wallet Address: ", walletAddress);
+  //console.log("Wallet Address: ", walletAddress);
   const { scriptAddr } = getScript();
   console.log("Script Address: ", scriptAddr);
   const value = MeshValue.fromAssets(assets);
@@ -43,6 +47,6 @@ async function main() {
   const signedTx = await wallet.signTx(unsignedTx);
   const txHash = await wallet.submitTx(signedTx);
   console.log("txhash: " + txHash);
-  console.log("Khoa");
+//  console.log("Khoa");
 }
 main();
