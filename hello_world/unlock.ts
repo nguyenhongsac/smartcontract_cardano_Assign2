@@ -8,7 +8,8 @@ import { blockchainProvider } from "./common";
    
   async function main() {
     const {utxos, walletAddress, collateral} = await getWalletInfoForTx(wallet);
-    const scriptUtxo = (await blockchainProvider.fetchUTxOs('f1a657b7a9648eab6572248fd15c28d7ab055890a9cbe54fb2bb8c9b96391c80'))[0];
+    const scriptUtxo = (await blockchainProvider.fetchUTxOs('a922a19b5434c32d7f787ad63066d5998aac19f1d40f1df5a417cc4b83b09293'))[0];
+    console.log("Script UTXO: ", scriptUtxo);
     const { scriptCbor } = getScript();
     console.log("Script Cbor: ", scriptCbor);
     const signerHash = deserializeAddress(walletAddress).pubKeyHash;

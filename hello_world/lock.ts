@@ -11,6 +11,7 @@ async function main() {
   const utxos = await wallet.getUtxos();
   const walletAddress = (await wallet.getUsedAddresses())[0];
   const { scriptAddr } = getScript();
+  console.log("Script Address: ", scriptAddr);
   const signerHash = deserializeAddress(walletAddress).pubKeyHash;
   const txBuilder = getTxBuilder();
   await txBuilder

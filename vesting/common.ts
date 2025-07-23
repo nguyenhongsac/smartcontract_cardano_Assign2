@@ -18,12 +18,9 @@ export const wallet = new MeshWallet({
     submitter: blockchainProvider,
     key: {
         type: 'mnemonic',
-        // words: [
-        //     "illness", "tomato", "organ", "credit", "hybrid", "path", "slight", "bomb", "allow", "media", "credit", "virtual", "uncle", "blast", "type", "very", "certain", "join", "feed", "repeat", "elbow", "place", "aim", "oblige"
-        // ],// bob
+        
         words: [
-          "spoil", "maid", "general", "expire", "kidney", "deal", "awful", "clip", "fragile", "kitchen", "reason", "crater", "attitude", "grain", "bitter", "bag", "mouse", "reform", "cactus", "spot", "vital", "sea", "same", "salon"
-        ],// alice
+        ]
     },
 });
 export function getScript() {

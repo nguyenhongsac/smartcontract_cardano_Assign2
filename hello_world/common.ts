@@ -18,12 +18,7 @@ export const wallet = new MeshWallet({
     submitter: blockchainProvider,
     key: {
         type: 'mnemonic',
-        // words: [
-        //     "illness", "tomato", "organ", "credit", "hybrid", "path", "slight", "bomb", "allow", "media", "credit", "virtual", "uncle", "blast", "type", "very", "certain", "join", "feed", "repeat", "elbow", "place", "aim", "oblige"
-        // ],// beneficiary
-        words: [
-          "spoil", "maid", "general", "expire", "kidney", "deal", "awful", "clip", "fragile", "kitchen", "reason", "crater", "attitude", "grain", "bitter", "bag", "mouse", "reform", "cactus", "spot", "vital", "sea", "same", "salon"
-        ]
+        words: []
     },
 });
 export function getScript() {
@@ -38,8 +33,7 @@ export function getScript() {
 
     const scriptAddr = serializePlutusScript(
         { code: scriptCbor, version: "V3" }, undefined, 0
-    ).address;;
-
+    ).address;
 
     return { scriptCbor, scriptAddr };
 }
@@ -64,7 +58,7 @@ export async function getUtxoByTxHash(txHash: string): Promise<UTxO> {
 
 export async function getWalletInfoForTx(wallet) {
     const utxos = await wallet.getUtxos();
-    const walletAddress = (await wallet.getUsedAddresses())[0];
+    const walletAddress = await wallet.getChangeAddress();
     const collateral = (await wallet.getCollateral())[0];
     return { utxos, walletAddress, collateral };
 }
