@@ -1,46 +1,69 @@
+// Import necessary utilities from MeshSDK and local common module
 import {
     deserializeAddress,
     mConStr0,
     stringToHex,
-  } from "@meshsdk/core";
-  import { getScript, getTxBuilder, getUtxoByTxHash, getWalletInfoForTx, wallet } from "./common";
+} from "@meshsdk/core";
+import { getScript, getTxBuilder, getUtxoByTxHash, getWalletInfoForTx, wallet } from "./common";
 import { blockchainProvider } from "./common";
-   
-  async function main() {
+
+// Main async function to unlock assets from a smart contract
+async function main() {
+    // Fetch wallet info: UTxOs, address, and collateral
     const {utxos, walletAddress, collateral} = await getWalletInfoForTx(wallet);
+
+    // Fetch specific UTxO from the blockchain using transaction hash
     const scriptUtxo = (await blockchainProvider.fetchUTxOs('a922a19b5434c32d7f787ad63066d5998aac19f1d40f1df5a417cc4b83b09293'))[0];
     console.log("Script UTXO: ", scriptUtxo);
+
+    // Get Plutus script CBOR code
     const { scriptCbor } = getScript();
     console.log("Script Cbor: ", scriptCbor);
+
+    // Extract public key hash from wallet address
     const signerHash = deserializeAddress(walletAddress).pubKeyHash;
+
+    // Define message for redeemer
     const message = "Hello, World!";
+
+    // Initialize transaction builder
     const txBuilder = getTxBuilder();
+
+    // Build transaction to unlock assets from script
     await txBuilder
-      .spendingPlutusScript("V3")
+      .spendingPlutusScript("V3") // Specify Plutus V3 script
       .txIn( 
-        scriptUtxo.input.txHash,
-        scriptUtxo.input.outputIndex,
-        scriptUtxo.output.amount,
-        scriptUtxo.output.address
+        scriptUtxo.input.txHash, // UTxO transaction hash
+        scriptUtxo.input.outputIndex, // UTxO output index
+        scriptUtxo.output.amount, // UTxO amount
+        scriptUtxo.output.address // UTxO address
       )
-      .txInScript(scriptCbor)
-      .txInRedeemerValue(mConStr0([stringToHex(message)])) 
-      .txInDatumValue(mConStr0([signerHash]))
-      .requiredSignerHash(signerHash)
-      .changeAddress(walletAddress)
+      .txInScript(scriptCbor) // Attach Plutus script
+      .txInRedeemerValue(mConStr0([stringToHex(message)])) // Attach redeemer with message
+      .txInDatumValue(mConStr0([signerHash])) // Attach datum with signer hash
+      .requiredSignerHash(signerHash) // Specify required signer
+      .changeAddress(walletAddress) // Set change address to wallet
       .txInCollateral(
-        collateral.input.txHash,
-        collateral.input.outputIndex,
-        collateral.output.amount,
-        collateral.output.address
+        collateral.input.txHash, // Collateral transaction hash
+        collateral.input.outputIndex, // Collateral output index
+        collateral.output.amount, // Collateral amount
+        collateral.output.address // Collateral address
       )
-      .selectUtxosFrom(utxos)
-      .complete();
+      .selectUtxosFrom(utxos) // Select wallet UTxOs for transaction
+      .complete(); // Finalize transaction
+
+    // Get unsigned transaction hex
     const unsignedTx = txBuilder.txHex;
-   
+
+    // Sign transaction with wallet
     const signedTx = await wallet.signTx(unsignedTx);
+
+    // Submit transaction and get transaction hash
     const txHash = await wallet.submitTx(signedTx);
+
+    // Log transaction hash
     console.log(`10 tADA unlocked from the contract at Tx ID: ${txHash}`);
-  }
-   
-  main();
+}
+
+// Execute main function
+main();
