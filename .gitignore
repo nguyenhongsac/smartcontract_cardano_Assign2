@@ -1,0 +1,4 @@
+.env
+node_modules/
+vesting_constract(aiken)/
+vesting_mesh/

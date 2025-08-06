@@ -10,11 +10,15 @@ import {
     Address
 } from "https://deno.land/x/lucid@0.9.1/mod.ts";
 
+import dotenv from 'dotenv';
+dotenv.config();
+const blockfrost_api = process.env.BLOCKFROST_API;
+
 // Initialize Lucid with Blockfrost provider for Cardano Preview network
 const lucid = await Lucid.new(
     new Blockfrost(
         "https://cardano-preview.blockfrost.io/api/v0", // Blockfrost API endpoint
-        "previewQHpuufLsFntdTvMtD9fQMHxpoWhF0qqG" // Blockfrost API key
+        blockfrost_api // Blockfrost API key
     ),
     "Preview" // Network identifier
 );
@@ -26,7 +30,7 @@ const script: SpendingValidator = {
 };
 
 // Select wallet using mnemonic seed phrase for transaction signing
-lucid.selectWalletFromSeed('');
+lucid.selectWalletFromSeed('brief parrot real edge puzzle pledge goddess girl violin valid unique mushroom summer silver chimney screen cheese crawl trend indoor peanut execute initial tennis');
 
 // Get public key hash from wallet address
 const publicKeyHash = lucid.utils.getAddressDetails(await lucid.wallet.address()).paymentCredential?.hash;

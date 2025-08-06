@@ -12,7 +12,7 @@ import { applyParamsToScript } from "@meshsdk/core-csl";
 import blueprint from "./plutus.json"; // Import Plutus script blueprint
 
 // Initialize Blockfrost provider for Cardano Preview network
-export const blockchainProvider = new BlockfrostProvider('previewQHpuufLsFntdTvMtD9fQMHxpoWhF0qqG');
+export const blockchainProvider = new BlockfrostProvider('');
 
 // Initialize Mesh wallet with Blockfrost provider for transaction handling
 export const wallet = new MeshWallet({
@@ -21,7 +21,7 @@ export const wallet = new MeshWallet({
     submitter: blockchainProvider, // Submit transactions
     key: {
         type: 'mnemonic',
-        words: [] // Placeholder for mnemonic words
+        words: []
     },
 });
 

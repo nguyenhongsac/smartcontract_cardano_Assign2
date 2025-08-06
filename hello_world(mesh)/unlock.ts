@@ -13,7 +13,7 @@ async function main() {
     const {utxos, walletAddress, collateral} = await getWalletInfoForTx(wallet);
 
     // Fetch specific UTxO from the blockchain using transaction hash
-    const scriptUtxo = (await blockchainProvider.fetchUTxOs('a922a19b5434c32d7f787ad63066d5998aac19f1d40f1df5a417cc4b83b09293'))[0];
+    const scriptUtxo = (await blockchainProvider.fetchUTxOs('219f1101d41733cca8ff813f4a6e3ea5dca56d4b2ad7e32a5d5c71e0dc69d100'))[0];
     console.log("Script UTXO: ", scriptUtxo);
 
     // Get Plutus script CBOR code
